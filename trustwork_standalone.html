@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrustWork</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#fff;--bg2:#f5f5f5;--bg3:#efefef;--bgi:#e6f1fb;--bgs:#eaf3de;--bgw:#faeeda;--bgd:#fcebeb;
+  --tx:#1a1a1a;--tx2:#555;--tx3:#999;--txi:#0c447c;--txs:#27500a;--txw:#633806;--txd:#a32d2d;
+  --br:rgba(0,0,0,.1);--br2:rgba(0,0,0,.18);--green:#1d9e75;--gd:#0f6e56;--gbg:#e1f5ee;--gtx:#085041;
+  --amber:#ef9f27;--abg:#faeeda;--atx:#633806;
+  --rmd:8px;--rlg:12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1e1e1e;--bg2:#2a2a2a;--bg3:#161616;--bgi:#0c2744;--bgs:#172f07;--bgw:#3d2204;--bgd:#3d0f0f;
+  --tx:#f0f0f0;--tx2:#aaa;--tx3:#666;--txi:#85b7eb;--txs:#c0dd97;--txw:#fac775;--txd:#f09595;
+  --br:rgba(255,255,255,.1);--br2:rgba(255,255,255,.18);--gbg:#0a2a1f;--gtx:#5dcaa5;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg3);color:var(--tx);font-size:14px}
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--bg);border-bottom:.5px solid var(--br);padding:0 14px;display:flex;align-items:center;gap:10px;height:50px;position:sticky;top:0;z-index:100}
+.logo{font-size:16px;font-weight:500;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.logo-dot{width:28px;height:28px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center}
+.logo-dot i{color:#fff;font-size:15px}
+.sw{flex:1;max-width:300px;position:relative}
+.sw input{width:100%;padding:6px 10px 6px 30px;border:.5px solid var(--br2);border-radius:var(--rmd);background:var(--bg2);color:var(--tx);font-size:13px}
+.sw i{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:15px}
+.sdrop{display:none;position:absolute;top:36px;left:0;right:0;background:var(--bg);border:.5px solid var(--br2);border-radius:var(--rlg);z-index:90;max-height:220px;overflow-y:auto;padding:4px}
+.sdrop.open{display:block}
+.si-drop{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--rmd);cursor:pointer;font-size:13px}
+.si-drop:hover{background:var(--bg2)}
+.tabs{display:flex;gap:2px;margin-left:auto}
+.tb{padding:5px 10px;border:none;background:none;border-radius:var(--rmd);font-size:12px;color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.tb:hover{background:var(--bg2)}
+.tb.on{background:var(--bg2);color:var(--tx);font-weight:500}
+.tb i{font-size:14px}
+.layout{display:flex;flex:1}
+.side{width:200px;border-right:.5px solid var(--br);background:var(--bg);padding:12px;flex-shrink:0}
+.main{flex:1;padding:16px;overflow-y:auto}
+.pg{display:none}.pg.on{display:block}
+.slbl{font-size:10px;font-weight:500;color:var(--tx3);letter-spacing:.06em;text-transform:uppercase;margin:12px 0 5px}
+.sitem{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:var(--rmd);cursor:pointer;font-size:13px;color:var(--tx2)}
+.sitem:hover,.sitem.on{background:var(--bg2);color:var(--tx)}
+.sitem.on{font-weight:500}
+.sitem i{font-size:14px;width:16px;text-align:center}
+.card{background:var(--bg);border:.5px solid var(--br);border-radius:var(--rlg);padding:14px 16px;margin-bottom:12px}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500;flex-shrink:0}
+.av32{width:32px;height:32px;font-size:12px}
+.av40{width:40px;height:40px;font-size:14px}
+.av52{width:52px;height:52px;font-size:18px}
+.flex{display:flex;align-items:center}
+.fcol{display:flex;flex-direction:column}
+.g4{gap:4px}.g6{gap:6px}.g8{gap:8px}.g10{gap:10px}.g12{gap:12px}
+.ml{margin-left:auto}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ts{color:var(--tx2)}.tt{color:var(--tx3)}
+.f11{font-size:11px}.f12{font-size:12px}.f13{font-size:13px}.f14{font-size:14px}.f16{font-size:16px}.f18{font-size:18px}.f22{font-size:22px}
+.fw5{font-weight:500}
+.mt4{margin-top:4px}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.mb4{margin-bottom:4px}.mb6{margin-bottom:6px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:500}
+.bgs{background:var(--bgs);color:var(--txs)}
+.bgi{background:var(--bgi);color:var(--txi)}
+.bgw{background:var(--bgw);color:var(--txw)}
+.bgg{background:var(--bg2);color:var(--tx2)}
+.bgd{background:var(--bgd);color:var(--txd)}
+.np-b{background:var(--gbg);color:var(--gtx);font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px}
+.btn{padding:7px 14px;border-radius:var(--rmd);font-size:13px;font-weight:500;cursor:pointer;border:.5px solid var(--br2);background:var(--bg);color:var(--tx);display:inline-flex;align-items:center;gap:5px;transition:background .12s}
+.btn:hover{background:var(--bg2)}
+.btnp{background:var(--green);color:#fff;border-color:var(--green)}
+.btnp:hover{background:var(--gd)}
+.btns{padding:4px 9px;font-size:12px}
+.dvd{border:none;border-top:.5px solid var(--br);margin:12px 0}
+.star{color:var(--amber);font-size:12px}
+.star.e{color:var(--br2)}
+.ppill{background:var(--gbg);color:var(--gtx);font-size:13px;font-weight:500;padding:5px 11px;border-radius:14px;display:inline-flex;align-items:center;gap:5px}
+.sc{background:var(--bg2);border-radius:var(--rmd);padding:12px 14px}
+.sc-lbl{font-size:11px;color:var(--tx2);margin-bottom:3px}
+.sc-val{font-size:20px;font-weight:500}
+.inp{width:100%;padding:7px 10px;border:.5px solid var(--br2);border-radius:var(--rmd);font-size:13px;background:var(--bg);color:var(--tx);margin-top:4px}
+textarea.inp{resize:vertical;min-height:68px}
+.tag{display:inline-flex;align-items:center;padding:3px 9px;background:var(--bg2);border-radius:14px;font-size:12px;color:var(--tx2);margin:2px;cursor:pointer}
+.tag.on{background:var(--gbg);color:var(--gtx)}
+.ecrd{border-left:3px solid var(--green);border-radius:0 var(--rmd) var(--rmd) 0;background:var(--bg2);padding:8px 12px;margin-bottom:8px}
+.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0}
+.ac{border:.5px solid var(--br2);border-radius:var(--rmd);padding:5px 2px;text-align:center;cursor:pointer;transition:background .1s}
+.ac:hover{background:var(--bg2)}
+.ac.on{background:var(--gbg);border-color:var(--green);color:var(--gtx)}
+.ac.off{background:var(--bg2);color:var(--tx3)}
+.ac .dy{font-size:10px;margin-bottom:2px}
+.ac .st{font-size:10px;font-weight:500}
+.bar-wrap{display:flex;align-items:flex-end;gap:4px;height:100px}
+.bc{display:flex;flex-direction:column;align-items:center;flex:1}
+.bar{width:100%;border-radius:3px 3px 0 0;transition:height .3s;min-height:4px}
+.blbl{font-size:9px;color:var(--tx3);margin-top:3px}
+.bval{font-size:9px;font-weight:500;color:var(--tx2)}
+.cmp-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:.5px solid var(--br)}
+.cmp-row:last-child{border-bottom:none}
+.cmp-bar{flex:1;height:6px;background:var(--br);border-radius:3px;overflow:hidden}
+.cmp-fill{height:100%;border-radius:3px}
+.dm{height:6px;border-radius:3px;background:var(--br);overflow:hidden;margin:3px 0}
+.dm-fill{height:100%;border-radius:3px;transition:width .4s}
+.rrow{display:flex;align-items:center;gap:8px;margin:8px 0}
+.rrow label{font-size:12px;color:var(--tx2);min-width:110px}
+.rrow span{font-size:12px;font-weight:500;min-width:42px;text-align:right}
+.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:4px;animation:pls 2s infinite}
+@keyframes pls{0%,100%{opacity:1}50%{opacity:.3}}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;align-items:flex-start;justify-content:center;padding-top:40px}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg);border-radius:var(--rlg);padding:22px;width:460px;max-width:94vw;border:.5px solid var(--br2);max-height:82vh;overflow-y:auto}
+input[type=range]{width:100%}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="topbar">
+  <div class="logo"><div class="logo-dot"><i class="ti ti-heart-handshake"></i></div>TrustWork</div>
+  <div class="sw">
+    <i class="ti ti-search"></i>
+    <input id="gs" type="text" placeholder="Search workers, nonprofits…" oninput="doSearch(this.value)" onfocus="openSD()" onblur="setTimeout(closeSD,180)">
+    <div id="sdrop" class="sdrop"></div>
+  </div>
+  <div class="tabs">
+    <button class="tb on" id="tb-discover" onclick="go('discover')"><i class="ti ti-compass"></i>Discover</button>
+    <button class="tb" id="tb-market" onclick="go('market')"><i class="ti ti-chart-bar"></i>Market</button>
+    <button class="tb" id="tb-book" onclick="go('book')"><i class="ti ti-calendar-plus"></i>Book</button>
+    <button class="tb" id="tb-portal" onclick="go('portal')"><i class="ti ti-id-badge"></i>Worker portal</button>
+    <button class="tb" id="tb-nps" onclick="go('nps')"><i class="ti ti-building-community"></i>Nonprofits</button>
+  </div>
+</div>
+
+<div class="layout">
+<div class="side">
+  <div class="slbl">Categories</div>
+  <div class="sitem on" id="si-all" onclick="setCat('all',this)"><i class="ti ti-layout-grid"></i>All services</div>
+  <div class="sitem" id="si-plumbing" onclick="setCat('plumbing',this)"><i class="ti ti-tool"></i>Plumbing</div>
+  <div class="sitem" id="si-transport" onclick="setCat('transport',this)"><i class="ti ti-car"></i>Transport</div>
+  <div class="sitem" id="si-cleaning" onclick="setCat('cleaning',this)"><i class="ti ti-spray"></i>Cleaning</div>
+  <div class="sitem" id="si-electrical" onclick="setCat('electrical',this)"><i class="ti ti-plug"></i>Electrical</div>
+  <div class="sitem" id="si-childcare" onclick="setCat('childcare',this)"><i class="ti ti-baby-carriage"></i>Childcare</div>
+  <div class="sitem" id="si-tutoring" onclick="setCat('tutoring',this)"><i class="ti ti-school"></i>Tutoring</div>
+  <div class="sitem" id="si-moving" onclick="setCat('moving',this)"><i class="ti ti-package"></i>Moving</div>
+  <div class="sitem" id="si-cooking" onclick="setCat('cooking',this)"><i class="ti ti-chef-hat"></i>Cooking</div>
+  <div class="sitem" id="si-painting" onclick="setCat('painting',this)"><i class="ti ti-paint"></i>Painting</div>
+  <div class="slbl">Sort by</div>
+  <div class="sitem on" id="sort-price" onclick="setSort('price',this)"><i class="ti ti-sort-ascending"></i>Best price</div>
+  <div class="sitem" id="sort-rating" onclick="setSort('rating',this)"><i class="ti ti-star"></i>Top rated</div>
+  <div class="sitem" id="sort-avail" onclick="setSort('avail',this)"><i class="ti ti-clock"></i>Available today</div>
+  <div class="slbl">Endorsed by</div>
+  <div class="sitem" onclick="go('nps')"><i class="ti ti-building-community"></i>IRC Detroit</div>
+  <div class="sitem" onclick="go('nps')"><i class="ti ti-building-community"></i>USCRI Michigan</div>
+  <div class="sitem" onclick="go('nps')"><i class="ti ti-users"></i>Friends only</div>
+</div>
+
+<div class="main">
+<div class="pg on" id="pg-discover">
+  <div class="flex g8 mb12" style="flex-wrap:wrap;align-items:flex-start">
+    <div><div class="f18 fw5">Find trusted workers</div><div class="f13 ts mt4"><span class="pulse"></span>Live market — prices update with demand</div></div>
+    <div class="ml flex g8">
+      <input class="inp" style="width:120px;margin:0" placeholder="Zip code" id="zipF" value="48201" oninput="renderW()">
+      <select class="inp" style="width:130px;margin:0" id="avF" onchange="renderW()">
+        <option value="">Any time</option><option value="today">Today</option><option value="weekend">Weekend</option><option value="morning">Mornings</option><option value="evening">Evenings</option>
+      </select>
+    </div>
+  </div>
+  <div id="wGrid"></div>
+</div>
+
+<div class="pg" id="pg-market">
+  <div class="f18 fw5 mb4">Live market intelligence</div>
+  <div class="f13 ts mb12">How demand & supply set prices — updated every few seconds</div>
+  <div class="g3 mb12">
+    <div class="sc"><div class="sc-lbl">Active workers</div><div class="sc-val" id="mW">48</div></div>
+    <div class="sc"><div class="sc-lbl">Open requests</div><div class="sc-val" id="mR">31</div></div>
+    <div class="sc"><div class="sc-lbl">Avg wait time</div><div class="sc-val" id="mT">2.4h</div></div>
+  </div>
+  <div class="card mb12">
+    <div class="f14 fw5 mb8">Demand by category — right now</div>
+    <div id="demCat"></div>
+  </div>
+  <div class="card mb12">
+    <div class="flex g8 mb8">
+      <div class="f14 fw5">Local price comparison</div>
+      <select class="inp" style="width:150px;margin:0 0 0 auto" id="mktCat" onchange="renderMktChart()">
+        <option>Plumbing</option><option>Transport</option><option>Cleaning</option><option>Electrical</option><option>Childcare</option><option>Tutoring</option><option>Moving</option><option>Cooking</option><option>Painting</option>
+      </select>
+    </div>
+    <div id="localCmp"></div>
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb6">Demand across the week</div>
+    <div class="bar-wrap" id="weekChart"></div>
+    <div class="f12 ts mt6" id="dmInsight"></div>
+  </div>
+  <div class="card">
+    <div class="f14 fw5 mb8">Platform take — same job, what the worker keeps</div>
+    <div id="platCmp"></div>
+    <div class="f12 ts mt8">TrustWork charges <strong style="color:var(--gtx)">$0</strong> in fees. Other platforms take 15–45%.</div>
+  </div>
+</div>
+
+<div class="pg" id="pg-book">
+  <div class="f18 fw5 mb12">Book a service</div>
+  <div class="card">
+    <div class="flex g12 mb12">
+      <div class="av av40" id="bkAv" style="background:#e1f5ee;color:#085041">AM</div>
+      <div style="flex:1"><div class="f16 fw5" id="bkName">Select a worker first</div><div class="f13 ts" id="bkTitle">—</div></div>
+      <div class="ppill"><i class="ti ti-tag"></i><span id="bkRate">$0</span>/hr</div>
+    </div>
+    <div class="dvd"></div>
+    <div class="mb10">
+      <div class="f13 fw5 mb4">Service needed</div>
+      <select class="inp" id="bkSvc" onchange="updBook()" style="margin-top:0">
+        <option>Plumbing repair</option><option>Drain unclogging</option><option>Pipe install</option><option>Transport / ride</option><option>House cleaning</option><option>Deep clean</option><option>Electrical repair</option><option>Childcare (hourly)</option><option>Tutoring</option><option>Moving help</option><option>Meal prep</option>
+      </select>
+    </div>
+    <div class="g2 mb10">
+      <div><div class="f13 fw5 mb4">Date</div><input type="date" class="inp" id="bkDate" onchange="updBook()" style="margin-top:0"></div>
+      <div><div class="f13 fw5 mb4">Time</div>
+        <select class="inp" id="bkTime" style="margin-top:0">
+          <option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option><option>2:00 PM</option><option>4:00 PM</option><option>6:00 PM</option>
+        </select>
+      </div>
+    </div>
+    <div class="mb10">
+      <div class="f13 fw5 mb4">Duration</div>
+      <div class="rrow"><label>Hours needed</label><input type="range" min="1" max="10" step="1" value="2" id="bkHrs" oninput="updBook()"><span id="bkHOut">2 hrs</span></div>
+    </div>
+    <div class="mb10"><div class="f13 fw5 mb4">Address</div><input type="text" class="inp" placeholder="Street address" style="margin-top:0"></div>
+    <div class="mb10"><div class="f13 fw5 mb4">Notes</div><textarea class="inp" placeholder="Describe the job…"></textarea></div>
+    <div class="dvd"></div>
+    <div style="background:var(--bg2);border-radius:var(--rmd);padding:12px 14px;margin-bottom:10px">
+      <div class="flex mb6"><span class="f13 ts">Rate (AI fair price)</span><span class="f13 fw5 ml" id="bkSRate">$28/hr</span></div>
+      <div class="flex mb6"><span class="f13 ts">Hours</span><span class="f13 fw5 ml" id="bkSHrs">2 hrs</span></div>
+      <div class="flex mb6"><span class="f13 ts">Demand surcharge</span><span class="f13 fw5 ml" id="bkSrg" style="color:var(--atx)">+$0</span></div>
+      <div class="flex mb6"><span class="f13 ts">Platform fee</span><span class="f13 fw5 ml" style="color:var(--txs)">$0.00</span></div>
+      <div class="dvd" style="margin:8px 0"></div>
+      <div class="flex"><span class="f14 fw5">Total to worker</span><span class="f16 fw5 ml" style="color:var(--txs)" id="bkTot">$56.00</span></div>
+    </div>
+    <div id="bkAvWarn" class="mb8"></div>
+    <button class="btn btnp" onclick="confirmBook()" style="width:100%;justify-content:center"><i class="ti ti-send"></i>Send booking request</button>
+  </div>
+</div>
+
+<div class="pg" id="pg-portal">
+  <div class="f18 fw5 mb4">Worker portal</div>
+  <div class="f13 ts mb12">Set your profile, availability, rates — see how demand affects earnings.</div>
+  <div class="card mb12">
+    <div class="f14 fw5 mb10">Your profile</div>
+    <div class="flex g12 mb12">
+      <div class="av av52" id="pAv" style="background:#e1f5ee;color:#085041">AM</div>
+      <div style="flex:1">
+        <input class="inp" style="margin:0 0 6px;width:100%" placeholder="Full name" id="pName" oninput="updPAv()" value="Ahmed Musa">
+        <input class="inp" style="margin:0;width:100%" placeholder="Professional title" id="pTitle" value="Licensed Plumber">
+      </div>
+    </div>
+    <textarea class="inp" placeholder="Short bio…" rows="2" id="pBio">15 years plumbing experience. Licensed in Michigan. English & Arabic.</textarea>
+    <div class="mt8 mb4 f13 fw5">Services offered</div>
+    <div id="svcTags" style="display:flex;flex-wrap:wrap"></div>
+    <div class="mt10 mb4 f13 fw5">Your base hourly rate</div>
+    <div class="rrow"><label>Rate ($/hr)</label><input type="range" min="12" max="120" step="1" value="28" id="pRate" oninput="updPRate()"><span id="pROut" class="fw5" style="color:var(--gtx)">$28</span></div>
+    <div class="f12 ts mt4" id="rVsMarket"></div>
+  </div>
+  <div class="card mb12">
+    <div class="f14 fw5 mb4">Your availability</div>
+    <div class="f12 ts mb8">Click days to toggle open/off.</div>
+    <div class="avail-grid" id="avGrid"></div>
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb6">Time slots</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px" id="timeSlots"></div>
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb6">Service area</div>
+    <div class="g2">
+      <input class="inp" placeholder="Home zip" value="48201" style="margin-top:0">
+      <select class="inp" style="margin-top:0"><option>Within 5 miles</option><option selected>Within 10 miles</option><option>Within 20 miles</option><option>Within 50 miles</option></select>
+    </div>
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb6">Travel preference</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      <span class="tag on" onclick="this.classList.toggle('on')">Client's location</span>
+      <span class="tag" onclick="this.classList.toggle('on')">My workshop</span>
+      <span class="tag on" onclick="this.classList.toggle('on')">Either works</span>
+    </div>
+  </div>
+  <div class="card mb12">
+    <div class="f14 fw5 mb8">Earnings dashboard</div>
+    <div class="g3 mb10">
+      <div class="sc"><div class="sc-lbl">This week</div><div class="sc-val" style="color:var(--txs)" id="eWk">$336</div></div>
+      <div class="sc"><div class="sc-lbl">This month</div><div class="sc-val" id="eMo">$1,344</div></div>
+      <div class="sc"><div class="sc-lbl">vs. Uber equiv.</div><div class="sc-val" style="color:var(--txs)" id="eDiff">+$605</div></div>
+    </div>
+    <div class="f13 fw5 mb6">Same hours on other platforms</div>
+    <div id="earnCmp"></div>
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb6">Demand forecast — your category</div>
+    <div class="bar-wrap" style="height:80px" id="fcastChart"></div>
+    <div class="f12 ts mt6" id="fcastTip"></div>
+  </div>
+  <div class="card">
+    <div class="f14 fw5 mb8">Endorsement requests</div>
+    <div class="g2 mb8">
+      <input class="inp" placeholder="Name or org" style="margin-top:0">
+      <input class="inp" placeholder="Email address" style="margin-top:0" type="email">
+    </div>
+    <button class="btn btnp btns mb12"><i class="ti ti-send"></i>Send endorsement request</button>
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb8">Current endorsers</div>
+    <div id="endorsers"></div>
+    <button class="btn btns mt8" onclick="savePortal()"><i class="ti ti-device-floppy"></i>Save profile</button>
+  </div>
+</div>
+
+<div class="pg" id="pg-nps">
+  <div class="f18 fw5 mb4">Nonprofit partner profiles</div>
+  <div class="f13 ts mb12">Nonprofits verify workers in their network. Browse any org to see who they endorse.</div>
+  <div id="npGrid"></div>
+</div>
+</div>
+</div>
+
+<div class="modal-bg" id="mBg" onclick="closeMod(event)">
+  <div class="modal" id="mContent"></div>
+</div>
+</div>
+
+<script>
+const NPS=[
+  {id:'IRC',name:'IRC Detroit',full:'International Rescue Committee — Detroit',mission:'Economic empowerment through employment, skills training, and community integration.',loc:'Detroit, MI',color:'#e1f5ee',tc:'#085041',icon:'ti-heart'},
+  {id:'USCRI',name:'USCRI Michigan',full:'US Committee for Refugees & Immigrants — Michigan',mission:'Connecting community members with dignified work and integration services.',loc:'Dearborn, MI',color:'#e6f1fb',tc:'#0c447c',icon:'ti-users'},
+  {id:'DAC',name:'Detroit Action Center',full:'Detroit Action Center for Economic Justice',mission:'Empowering Detroit residents with job skills, fair-pay advocacy, and placement.',loc:'Detroit, MI',color:'#faeeda',tc:'#633806',icon:'ti-building-community'},
+];
+const ALL_SVCS=['Plumbing','Transport','Cleaning','Electrical','Childcare','Tutoring','Moving','Cooking','Painting','Handyman','Landscaping','Pet care'];
+const MKT={
+  Plumbing:{d:82,s:45,base:28,lw:[{n:'Ahmed M.',r:28,rt:4.9,j:47},{n:'Marcus T.',r:32,rt:4.7,j:23},{n:'Raj P.',r:26,rt:4.6,j:61},{n:'Sofia L.',r:30,rt:4.8,j:18}]},
+  Transport:{d:90,s:75,base:18,lw:[{n:'Kofi M.',r:18,rt:4.7,j:88},{n:'Anna K.',r:20,rt:4.5,j:112},{n:'James R.',r:17,rt:4.4,j:203},{n:'Diana C.',r:21,rt:4.8,j:56}]},
+  Cleaning:{d:65,s:60,base:22,lw:[{n:'Fatima D.',r:22,rt:4.8,j:31},{n:'Elena V.',r:25,rt:4.9,j:67},{n:'Tom B.',r:20,rt:4.6,j:44},{n:'Priya S.',r:24,rt:4.7,j:29}]},
+  Electrical:{d:55,s:30,base:35,lw:[{n:'Yusuf H.',r:35,rt:4.6,j:19},{n:'Carlos M.',r:40,rt:4.8,j:33},{n:'Wei L.',r:38,rt:4.7,j:27}]},
+  Childcare:{d:70,s:50,base:20,lw:[{n:'Maria S.',r:20,rt:5.0,j:22},{n:'Grace O.',r:22,rt:4.8,j:41},{n:'Aisha T.',r:19,rt:4.7,j:35}]},
+  Tutoring:{d:60,s:55,base:30,lw:[{n:'Ana P.',r:30,rt:4.9,j:34},{n:'David K.',r:35,rt:4.8,j:52},{n:'Zara N.',r:28,rt:4.6,j:19}]},
+  Moving:{d:50,s:40,base:25,lw:[{n:'Omar F.',r:25,rt:4.8,j:56},{n:'Ben H.',r:28,rt:4.7,j:33},{n:'Leo D.',r:23,rt:4.5,j:71}]},
+  Cooking:{d:45,s:35,base:24,lw:[{n:'Lin W.',r:24,rt:4.9,j:41},{n:'Rosa G.',r:27,rt:4.8,j:28},{n:'Nia F.',r:22,rt:4.6,j:15}]},
+  Painting:{d:48,s:32,base:26,lw:[{n:'Ivan R.',r:26,rt:4.7,j:38},{n:'Mei T.',r:29,rt:4.8,j:22},{n:'Sam O.',r:24,rt:4.5,j:47}]},
+};
+const WORKERS=[
+  {id:'w1',name:'Ahmed Musa',ini:'AM',cat:'plumbing',title:'Licensed Plumber',np:'IRC',npN:'IRC Detroit',rate:28,rating:4.9,rev:47,tags:['pipes','drain','fixtures','emergency'],end:['Sarah K.','Omar F.','IRC Detroit'],bio:'15 years residential & commercial plumbing. Licensed in Michigan.',bgc:'#e1f5ee',tc:'#085041',avail:['Mon','Tue','Wed','Thu'],slots:['morning','afternoon']},
+  {id:'w2',name:'Fatima Diallo',ini:'FD',cat:'cleaning',title:'Professional Cleaner',np:'IRC',npN:'IRC Detroit',rate:22,rating:4.8,rev:31,tags:['deep-clean','move-out','eco-friendly'],end:['Maria L.','IRC Detroit'],bio:'Deep cleaning specialist. Eco products. Move-in/out expert.',bgc:'#fbeaf0',tc:'#4b1528',avail:['Mon','Wed','Fri','Sat'],slots:['morning','afternoon']},
+  {id:'w3',name:'Kofi Mensah',ini:'KM',cat:'transport',title:'Driver & Delivery',np:'IRC',npN:'IRC Detroit',rate:18,rating:4.7,rev:88,tags:['rides','delivery','airport','cargo'],end:['James T.','IRC Detroit','USCRI Michigan'],bio:'Safe, punctual. Knows metro Detroit. Large van available.',bgc:'#e1f5ee',tc:'#085041',avail:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],slots:['morning','afternoon','evening']},
+  {id:'w4',name:'Maria Santos',ini:'MS',cat:'childcare',title:'Childcare Provider',np:'USCRI',npN:'USCRI Michigan',rate:20,rating:5.0,rev:22,tags:['infant','after-school','CPR','overnight'],end:['Chen Family','USCRI Michigan'],bio:'Certified infant & toddler care. CPR trained. Background checked.',bgc:'#e6f1fb',tc:'#0c447c',avail:['Mon','Tue','Thu','Fri'],slots:['morning','afternoon','evening']},
+  {id:'w5',name:'Yusuf Hassan',ini:'YH',cat:'electrical',title:'Electrician',np:'IRC',npN:'IRC Detroit',rate:35,rating:4.6,rev:19,tags:['wiring','outlets','panel','EV charger'],end:['Detroit Action Center','Mike R.'],bio:'Electrical journeyman, 10 years. Pursuing Michigan master license.',bgc:'#faeeda',tc:'#633806',avail:['Tue','Wed','Thu','Sat'],slots:['morning','afternoon']},
+  {id:'w6',name:'Ana Popescu',ini:'AP',cat:'tutoring',title:'Math & Science Tutor',np:'DAC',npN:'Detroit Action Center',rate:30,rating:4.9,rev:34,tags:['algebra','chemistry','SAT','AP Physics'],end:['Detroit Action Center','Sophie W.'],bio:'Former teacher, math degree. K-12, adult learners, SAT/ACT prep.',bgc:'#eaf3de',tc:'#173404',avail:['Mon','Tue','Wed','Thu','Fri'],slots:['afternoon','evening']},
+  {id:'w7',name:'Omar Farooq',ini:'OF',cat:'moving',title:'Moving Crew Lead',np:'IRC',npN:'IRC Detroit',rate:25,rating:4.8,rev:56,tags:['furniture','packing','piano','fragile items'],end:['Ahmed Musa','IRC Detroit'],bio:'Careful mover. 2-person crew. Insured. Piano & fragile specialist.',bgc:'#e1f5ee',tc:'#085041',avail:['Fri','Sat','Sun'],slots:['morning','afternoon']},
+  {id:'w8',name:'Lin Wei',ini:'LW',cat:'cooking',title:'Home Cook & Caterer',np:'USCRI',npN:'USCRI Michigan',rate:24,rating:4.9,rev:41,tags:['meal prep','catering','dietary','Asian cuisine'],end:['USCRI Michigan','The Kim Family'],bio:'Trained chef. Diverse cuisines, dietary restrictions welcome. Up to 30 guests.',bgc:'#e6f1fb',tc:'#0c447c',avail:['Sat','Sun','Mon'],slots:['morning','afternoon']},
+  {id:'w9',name:'Ivan Russo',ini:'IR',cat:'painting',title:'Painter & Decorator',np:'DAC',npN:'Detroit Action Center',rate:26,rating:4.7,rev:38,tags:['interior','exterior','murals','color consult'],end:['Detroit Action Center','Mei T.'],bio:'Interior & exterior painting, 12 years. Free color consults. Insured.',bgc:'#faeeda',tc:'#633806',avail:['Mon','Tue','Thu','Sat'],slots:['morning','afternoon']},
+  {id:'w10',name:'Grace Okafor',ini:'GO',cat:'childcare',title:'Childcare & Tutor',np:'USCRI',npN:'USCRI Michigan',rate:22,rating:4.8,rev:41,tags:['after-school','homework help','arts & crafts'],end:['USCRI Michigan','Park Family'],bio:'Early childhood education. After-school specialist. Summer programs.',bgc:'#e6f1fb',tc:'#0c447c',avail:['Mon','Tue','Wed','Thu','Fri'],slots:['afternoon','evening']},
+];
+
+let curCat='all',curSort='price',curW=WORKERS[0];
+
+function stars(n){return[1,2,3,4,5].map(i=>`<i class="ti ti-star star${i>Math.round(n)?' e':''}"></i>`).join('')}
+function getDR(w){const k=w.cat.charAt(0).toUpperCase()+w.cat.slice(1);const m=MKT[k];if(!m)return w.rate;const r=m.d/Math.max(m.s,1);return Math.round(w.rate*Math.max(0.85,Math.min(1.4,r)))}
+function todayOk(w){return w.avail.includes(['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()])}
+function avMatch(w){const v=document.getElementById('avF').value;if(!v)return true;if(v==='today')return todayOk(w);if(v==='weekend')return w.avail.some(d=>['Sat','Sun'].includes(d));if(v==='morning')return w.slots.includes('morning');if(v==='evening')return w.slots.includes('evening');return true}
+
+function go(p){
+  document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(x=>x.classList.remove('on'));
+  document.getElementById('pg-'+p).classList.add('on');
+  document.getElementById('tb-'+p).classList.add('on');
+  if(p==='discover')renderW();
+  if(p==='market'){renderMktChart();renderDemCat();renderPlatCmp();}
+  if(p==='portal')initPortal();
+  if(p==='nps')renderNPs();
+}
+
+function setCat(c,el){document.querySelectorAll('.sitem[id^="si-"]').forEach(x=>x.classList.remove('on'));el.classList.add('on');curCat=c;if(document.getElementById('pg-discover').classList.contains('on'))renderW()}
+function setSort(s,el){document.querySelectorAll('.sitem[id^="sort-"]').forEach(x=>x.classList.remove('on'));el.classList.add('on');curSort=s;renderW()}
+
+function renderW(){
+  let list=WORKERS.filter(w=>(curCat==='all'||w.cat===curCat)&&avMatch(w));
+  if(curSort==='price')list.sort((a,b)=>getDR(a)-getDR(b));
+  if(curSort==='rating')list.sort((a,b)=>b.rating-a.rating);
+  if(curSort==='avail')list.sort((a,b)=>todayOk(b)-todayOk(a));
+  const el=document.getElementById('wGrid');
+  if(!list.length){el.innerHTML='<div class="f14 ts" style="padding:16px 0">No workers match your filters.</div>';return}
+  el.innerHTML=list.map(w=>{
+    const rate=getDR(w);const k=w.cat.charAt(0).toUpperCase()+w.cat.slice(1);const m=MKT[k]||{};
+    const surge=m.d&&m.s&&(m.d/m.s)>1.1;const ok=todayOk(w);
+    return`<div class="card" style="padding:12px 14px;cursor:pointer;margin-bottom:10px" onclick="openW('${w.id}')">
+      <div class="flex g10">
+        <div class="av av40" style="background:${w.bgc};color:${w.tc}">${w.ini}</div>
+        <div style="flex:1;min-width:0">
+          <div class="flex g6">${w.name}${ok?`<span class="bdg bgs f11"><i class="ti ti-clock"></i>Today</span>`:''}${surge?`<span class="bdg bgw f11"><i class="ti ti-trending-up"></i>High demand</span>`:''}</div>
+          <div class="f12 ts">${w.title}</div>
+          <div class="flex g6 mt4" style="flex-wrap:wrap;align-items:center">${stars(w.rating)}<span class="f12 ts">${w.rating} (${w.rev})</span><span class="np-b"><i class="ti ti-building-community"></i>${w.npN}</span></div>
+          <div class="flex g4 mt4" style="flex-wrap:wrap">${w.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+        <div class="fcol g6" style="align-items:flex-end;flex-shrink:0">
+          <div class="ppill">$${rate}/hr</div>
+          ${surge?`<div class="f11" style="color:var(--atx)">Base $${w.rate}</div>`:''}
+          <button class="btn btnp btns" onclick="event.stopPropagation();qBook('${w.id}')"><i class="ti ti-calendar-plus"></i>Book</button>
+        </div>
+      </div>
+    </div>`}).join('')
+}
+
+function openW(id){
+  const w=WORKERS.find(x=>x.id===id);if(!w)return;curW=w;
+  const rate=getDR(w);const k=w.cat.charAt(0).toUpperCase()+w.cat.slice(1);const m=MKT[k]||{};
+  const mult=m.d&&m.s?m.d/Math.max(m.s,1):1;const surge=mult>1.1;
+  const lw=(m.lw||[]).map(lx=>`<div class="cmp-row"><span class="f13" style="min-width:90px">${lx.n}</span><div class="cmp-bar"><div class="cmp-fill" style="width:${Math.round(lx.r/80*100)}%;background:${lx.n.includes(w.name.split(' ')[0])?'var(--green)':'var(--br)'}"></div></div><span class="f13 fw5" style="min-width:40px;text-align:right;color:${lx.n.includes(w.name.split(' ')[0])?'var(--gtx)':''}">$${lx.r}/hr</span><span class="f11 ts">${lx.rt}⭐</span></div>`).join('');
+  document.getElementById('mContent').innerHTML=`
+    <div class="flex g12 mb12">
+      <div class="av av52" style="background:${w.bgc};color:${w.tc}">${w.ini}</div>
+      <div style="flex:1"><div class="f18 fw5">${w.name}</div><div class="f13 ts">${w.title}</div>
+        <div class="flex g6 mt6" style="flex-wrap:wrap"><span class="np-b"><i class="ti ti-building-community"></i>${w.npN}</span><span class="bdg bgs"><i class="ti ti-check"></i>Verified</span>${todayOk(w)?'<span class="bdg bgs"><i class="ti ti-clock"></i>Available today</span>':''}</div>
+      </div>
+      <div class="fcol g6" style="align-items:flex-end">
+        <div class="ppill f14">$${rate}/hr</div>
+        ${surge?`<div class="f11" style="color:var(--atx)">High demand +${Math.round((mult-1)*100)}%</div>`:''}
+      </div>
+    </div>
+    <div class="f13 ts mb10">${w.bio}</div>
+    <div class="flex g4 mb10" style="flex-wrap:wrap">${w.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    <div class="dvd"></div>
+    <div class="g2 mb10">
+      <div><div class="f12 ts mb4">Availability</div>${w.avail.map(d=>`<span class="bdg bgs" style="margin:2px">${d}</span>`).join('')}</div>
+      <div><div class="f12 ts mb4">Time slots</div>${w.slots.map(s=>`<span class="bdg bgg" style="margin:2px">${s}</span>`).join('')}</div>
+    </div>
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb8">Local price comparison — ${k}</div>${lw}
+    <div class="dvd"></div>
+    <div class="f13 fw5 mb6">Trust chain</div>
+    <div class="flex g6 mb10" style="flex-wrap:wrap;align-items:center">${w.end.map((e,i)=>`<span class="flex g4"><div class="av" style="width:20px;height:20px;font-size:8px;background:${w.bgc};color:${w.tc}">${e[0]}</div><span class="f12">${e}</span></span>${i<w.end.length-1?'<i class="ti ti-arrow-right" style="font-size:12px;color:var(--tx3)"></i>':''}`).join('')}</div>
+    <div class="ecrd"><div class="flex g8 mb4"><div class="av av32" style="background:#e1f5ee;color:#085041"><i class="ti ti-building-community" style="font-size:13px"></i></div><div><div class="f13 fw5">${w.npN}</div><div class="f11 ts">Nonprofit endorsement</div></div></div><div class="f13 ts">"${w.name.split(' ')[0]} is a trusted member of our network — reliable and highly recommended."</div></div>
+    <div class="flex g8 mt12"><button class="btn btnp" onclick="qBook('${w.id}');closeMod()" style="flex:1;justify-content:center"><i class="ti ti-calendar-plus"></i>Book now</button><button class="btn" onclick="closeMod()">Close</button></div>`;
+  document.getElementById('mBg').classList.add('open');
+}
+
+function qBook(id){
+  const w=WORKERS.find(x=>x.id===id);curW=w;const rate=getDR(w);
+  const av=document.getElementById('bkAv');av.textContent=w.ini;av.style.background=w.bgc;av.style.color=w.tc;
+  document.getElementById('bkName').textContent=w.name;
+  document.getElementById('bkTitle').textContent=w.title;
+  document.getElementById('bkRate').textContent='$'+rate;
+  document.getElementById('bkSRate').textContent='$'+rate+'/hr';
+  updBook();go('book');
+}
+
+function updBook(){
+  const hrs=parseInt(document.getElementById('bkHrs').value)||2;
+  const rate=curW?getDR(curW):28;
+  const k=curW?curW.cat.charAt(0).toUpperCase()+curW.cat.slice(1):'';
+  const m=MKT[k]||{};const mult=m.d&&m.s?m.d/Math.max(m.s,1):1;
+  const srg=mult>1.05?Math.round((rate-(curW?curW.rate:28))*hrs):0;
+  document.getElementById('bkHOut').textContent=hrs+' hr'+(hrs>1?'s':'');
+  document.getElementById('bkSHrs').textContent=hrs+' hr'+(hrs>1?'s':'');
+  document.getElementById('bkSrg').textContent='+$'+srg;
+  document.getElementById('bkTot').textContent='$'+(rate*hrs).toFixed(2);
+  if(curW){const ok=todayOk(curW);document.getElementById('bkAvWarn').innerHTML=ok?`<span class="bdg bgs mb6" style="display:inline-flex"><i class="ti ti-check"></i>${curW.name.split(' ')[0]} available today</span>`:`<span class="bdg bgw" style="display:inline-flex"><i class="ti ti-info-circle"></i>Available: ${curW.avail.join(', ')}</span>`}
+}
+
+function confirmBook(){
+  document.getElementById('mContent').innerHTML=`<div style="text-align:center;padding:24px 0"><div style="width:56px;height:56px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><i class="ti ti-check" style="color:var(--green);font-size:28px"></i></div><div class="f16 fw5 mb8">Request sent to ${curW?curW.name:'worker'}!</div><div class="f13 ts mb16">They'll confirm within 2 hours. Payment goes directly to them — $0 fee.</div><button class="btn btnp" onclick="closeMod()" style="margin:0 auto">Done</button></div>`;
+  document.getElementById('mBg').classList.add('open');
+}
+
+function renderMktChart(){
+  const cat=document.getElementById('mktCat').value;const m=MKT[cat]||MKT.Plumbing;
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const dp=[65,70,75,80,90,95,60];const maxD=Math.max(...dp);
+  document.getElementById('weekChart').innerHTML=days.map((d,i)=>{
+    const h=Math.round(dp[i]/maxD*90);const c=dp[i]>80?'var(--amber)':dp[i]>70?'#378add':'var(--green)';
+    return`<div class="bc"><span class="bval">${dp[i]}%</span><div class="bar" style="height:${h}px;background:${c}"></div><div class="blbl">${d}</div></div>`;
+  }).join('');
+  document.getElementById('dmInsight').textContent=m.d>m.s?`High demand — prices ${Math.round((m.d/m.s-1)*100)}% above baseline. Best time to offer services.`:`Supply healthy — competitive pricing for clients right now.`;
+  const lc=document.getElementById('localCmp');const lw=[...m.lw].sort((a,b)=>a.r-b.r);const maxR=Math.max(...lw.map(x=>x.r));
+  lc.innerHTML=`<div class="f12 ts mb6">All workers in area offering this service</div>`+lw.map(w=>`<div class="cmp-row"><span class="f13" style="min-width:90px">${w.n}</span><div class="cmp-bar"><div class="cmp-fill" style="width:${Math.round(w.r/maxR*100)}%;background:var(--green)"></div></div><span class="f13 fw5" style="min-width:44px;text-align:right;color:var(--gtx)">$${w.r}/hr</span><span class="f11 ts">${w.rt}⭐ · ${w.j} jobs</span></div>`).join('')+
+  `<div class="cmp-row" style="background:var(--gbg);border-radius:var(--rmd);margin-top:4px;padding:4px 0"><span class="f13 fw5" style="min-width:90px;color:var(--gtx)">Area median</span><div class="cmp-bar"><div class="cmp-fill" style="width:${Math.round(m.base/maxR*100)}%;background:var(--green)"></div></div><span class="f13 fw5" style="min-width:44px;text-align:right;color:var(--gtx)">$${m.base}/hr</span><span class="f11" style="color:var(--gtx)">market rate</span></div>`;
+}
+
+function renderDemCat(){
+  document.getElementById('demCat').innerHTML=Object.entries(MKT).map(([cat,m])=>{
+    const r=m.d/Math.max(m.s,1);const c=r>1.3?'var(--amber)':r<0.9?'var(--green)':'#378add';
+    return`<div class="flex g8 mb8" style="align-items:center"><span class="f13" style="min-width:80px">${cat}</span><div style="flex:1"><div class="dm"><div class="dm-fill" style="width:${m.d}%;background:${c}"></div></div><div class="flex g4 mt4"><span class="f11 ts">Demand ${m.d}%</span><span class="f11 ts">·</span><span class="f11 ts">Supply ${m.s}%</span></div></div><span class="bdg ${r>1.3?'bgw':'bgg'}" style="min-width:80px;justify-content:center">${r>1.3?'High demand':'Balanced'}</span><span class="f13 fw5" style="min-width:44px;text-align:right;color:${r>1.3?'var(--atx)':'var(--gtx)'}">$${Math.round(m.base*r)}/hr</span></div>`;
+  }).join('');
+}
+
+function renderPlatCmp(){
+  const rate=32;const plats=[{n:'TrustWork',p:100,c:'var(--green)',t:'$0 fee'},{n:'TaskRabbit',p:72,c:'#378add',t:'28% cut'},{n:'Thumbtack',p:75,c:'#7f77dd',t:'25% cut'},{n:'Handy',p:60,c:'var(--amber)',t:'40% cut'},{n:'Uber',p:55,c:'#ef9f27',t:'45% cut'}];
+  document.getElementById('platCmp').innerHTML=plats.map(p=>`<div class="cmp-row"><span class="f13 ${p.n==='TrustWork'?'fw5':''}" style="min-width:90px;color:${p.n==='TrustWork'?'var(--gtx)':''}">${p.n}</span><div class="cmp-bar"><div class="cmp-fill" style="width:${p.p}%;background:${p.c}"></div></div><span class="f13 fw5" style="min-width:44px;text-align:right;color:${p.n==='TrustWork'?'var(--gtx)':''}">$${Math.round(rate*p.p/100)}/hr</span><span class="f11 ts">${p.t}</span></div>`).join('');
+}
+
+function initPortal(){
+  const svcs=document.getElementById('svcTags');
+  const cur=curW?.services||['Plumbing'];
+  svcs.innerHTML=ALL_SVCS.map(s=>`<span class="tag${cur.includes(s)?' on':''}" onclick="this.classList.toggle('on')">${s}</span>`).join('');
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const ca=curW?.avail||['Mon','Tue'];
+  document.getElementById('avGrid').innerHTML=days.map(d=>`<div class="ac${ca.includes(d)?' on':' off'}" onclick="this.classList.toggle('on');this.classList.toggle('off');this.querySelector('.st').textContent=this.classList.contains('on')?'Open':'Off'"><div class="dy">${d}</div><div class="st">${ca.includes(d)?'Open':'Off'}</div></div>`).join('');
+  const allS=['Early morning','Morning','Midday','Afternoon','Evening','Night'];const cs=curW?.slots||['morning'];
+  document.getElementById('timeSlots').innerHTML=allS.map(s=>`<span class="tag${cs.some(x=>s.toLowerCase().includes(x))?' on':''}" onclick="this.classList.toggle('on')">${s}</span>`).join('');
+  updPRate();updPAv();renderEarnCmp();renderFcast();
+  document.getElementById('endorsers').innerHTML=(curW?.end||[]).map(e=>`<div class="flex g8 mb6"><div class="av av32" style="background:#e1f5ee;color:#085041">${e[0]}</div><div style="flex:1"><div class="f13 fw5">${e}</div><div class="f11 ts">Endorser</div></div><span class="bdg bgs"><i class="ti ti-check"></i>Active</span></div>`).join('');
+  const wk=Math.round(getDR(curW||WORKERS[0])*12);
+  document.getElementById('eWk').textContent='$'+wk;
+  document.getElementById('eMo').textContent='$'+(wk*4);
+  document.getElementById('eDiff').textContent='+$'+Math.round(wk*4*0.45);
+}
+
+function updPAv(){const n=document.getElementById('pName')?.value||'';const p=n.trim().split(' ');const el=document.getElementById('pAv');if(el)el.textContent=((p[0]?.[0]||'?')+(p[1]?.[0]||'')).toUpperCase()}
+function updPRate(){
+  const rate=parseInt(document.getElementById('pRate')?.value)||28;
+  if(document.getElementById('pROut'))document.getElementById('pROut').textContent='$'+rate;
+  const k=(curW?.cat||'plumbing').charAt(0).toUpperCase()+(curW?.cat||'plumbing').slice(1);
+  const m=MKT[k];if(m&&document.getElementById('rVsMarket')){const diff=rate-m.base;const el=document.getElementById('rVsMarket');el.textContent=diff===0?`At area median ($${m.base}/hr)`:diff>0?`$${diff} above median ($${m.base}/hr) — may see fewer requests`:`$${Math.abs(diff)} below median ($${m.base}/hr) — more requests likely`;el.style.color=diff>8?'var(--txw)':diff<-8?'var(--txi)':'var(--txs)'}
+  renderEarnCmp();
+}
+function renderEarnCmp(){
+  const rate=parseInt(document.getElementById('pRate')?.value)||28;const hrs=160;const el=document.getElementById('earnCmp');if(!el)return;
+  const plats=[{n:'TrustWork (you)',e:rate*hrs,p:100,c:'var(--green)'},{n:'TaskRabbit',e:Math.round(rate*.72*hrs),p:72,c:'#378add'},{n:'Handy',e:Math.round(rate*.60*hrs),p:60,c:'var(--amber)'},{n:'Uber/Lyft',e:Math.round(rate*.55*hrs),p:55,c:'#ef9f27'}];
+  el.innerHTML=plats.map(p=>`<div class="cmp-row"><span class="f13 ${p.n.includes('TrustWork')?'fw5':''}" style="min-width:110px;color:${p.n.includes('TrustWork')?'var(--gtx)':''}">${p.n}</span><div class="cmp-bar"><div class="cmp-fill" style="width:${p.p}%;background:${p.c}"></div></div><span class="f13 fw5" style="min-width:60px;text-align:right;color:${p.n.includes('TrustWork')?'var(--gtx)':''}">$${p.e.toLocaleString()}/mo</span></div>`).join('');
+}
+function renderFcast(){
+  const k=(curW?.cat||'plumbing').charAt(0).toUpperCase()+(curW?.cat||'plumbing').slice(1);const m=MKT[k]||MKT.Plumbing;
+  const days=['M','T','W','T','F','S','S'];const base=m.d;const vals=[base-10,base-5,base,base+5,base+8,base+12,base-8];const mx=Math.max(...vals);
+  const el=document.getElementById('fcastChart');if(!el)return;
+  el.innerHTML=days.map((d,i)=>`<div class="bc"><div class="bar" style="height:${Math.round(vals[i]/mx*72)}px;background:${vals[i]>base?'var(--amber)':'var(--green)'}"></div><div class="blbl">${d}</div></div>`).join('');
+  if(document.getElementById('fcastTip'))document.getElementById('fcastTip').textContent=`Peak Fri–Sat. Consider raising rate ${Math.round((m.d/m.s-1)*100)}% during high-demand periods.`;
+}
+
+function savePortal(){document.getElementById('mContent').innerHTML=`<div style="text-align:center;padding:20px 0"><div style="width:48px;height:48px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><i class="ti ti-check" style="color:var(--green);font-size:24px"></i></div><div class="f16 fw5 mb6">Profile saved!</div><div class="f13 ts mb14">Your availability and rates are now visible to clients.</div><button class="btn btnp" onclick="closeMod()" style="margin:0 auto">Done</button></div>`;document.getElementById('mBg').classList.add('open')}
+
+function renderNPs(){
+  document.getElementById('npGrid').innerHTML=NPS.map(np=>{const ws=WORKERS.filter(w=>w.np===np.id);return`<div class="card" style="cursor:pointer" onclick="showNP('${np.id}')"><div class="flex g12 mb10"><div class="av av40" style="background:${np.color};color:${np.tc}"><i class="ti ${np.icon}" style="font-size:18px"></i></div><div style="flex:1"><div class="f15 fw5">${np.name}</div><div class="f12 ts">${np.full}</div><div class="flex g6 mt4"><span class="bdg bgs"><i class="ti ti-check"></i>Verified</span><span class="bdg bgg"><i class="ti ti-map-pin"></i>${np.loc}</span><span class="bdg bgi"><i class="ti ti-users"></i>${ws.length} workers</span></div></div></div><div class="f13 ts mb10">${np.mission}</div><div class="dvd"></div><div class="f13 fw5 mb6">Endorsed workers</div><div class="flex g6" style="flex-wrap:wrap">${ws.map(w=>`<div class="flex g4" style="align-items:center;background:var(--bg2);border-radius:14px;padding:3px 8px 3px 4px;cursor:pointer" onclick="event.stopPropagation();openW('${w.id}')"><div class="av" style="width:20px;height:20px;font-size:8px;background:${w.bgc};color:${w.tc}">${w.ini}</div><span class="f12">${w.name.split(' ')[0]}</span><span class="f11 ts">$${getDR(w)}/hr</span></div>`).join('')}</div></div>`}).join('');
+}
+
+function showNP(id){
+  const np=NPS.find(x=>x.id===id);const ws=WORKERS.filter(w=>w.np===id);
+  document.getElementById('mContent').innerHTML=`<div class="flex g12 mb12"><div class="av av52" style="background:${np.color};color:${np.tc}"><i class="ti ${np.icon}" style="font-size:22px"></i></div><div><div class="f18 fw5">${np.name}</div><div class="f13 ts">${np.full}</div><span class="bdg bgs mt4" style="margin-top:6px"><i class="ti ti-check"></i>Verified nonprofit</span></div></div><div class="f13 ts mb10">${np.mission}</div><div class="dvd"></div><div class="f14 fw5 mb8">Endorsed workers (${ws.length})</div>${ws.map(w=>`<div class="flex g10 mb8" style="cursor:pointer;padding:6px;border-radius:var(--rmd)" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''" onclick="openW('${w.id}')"><div class="av av32" style="background:${w.bgc};color:${w.tc}">${w.ini}</div><div style="flex:1"><div class="f13 fw5">${w.name}</div><div class="f12 ts">${w.title} · $${getDR(w)}/hr · ${w.rating}⭐ · ${todayOk(w)?'<span style="color:var(--gtx)">Today</span>':w.avail.join(', ')}</div></div><button class="btn btns" onclick="event.stopPropagation();qBook('${w.id}');closeMod()"><i class="ti ti-calendar-plus"></i>Book</button></div>`).join('')}<button class="btn" onclick="closeMod()" style="width:100%;justify-content:center;margin-top:10px">Close</button>`;
+  document.getElementById('mBg').classList.add('open');
+}
+
+const SA=[...WORKERS.map(w=>({t:'worker',l:w.name,s:w.title+' · $'+getDR(w)+'/hr',id:w.id,bgc:w.bgc,tc:w.tc,i:w.ini})),...NPS.map(n=>({t:'nonprofit',l:n.name,s:n.full,id:n.id,bgc:n.color,tc:n.tc,i:'NP'}))];
+function doSearch(q){const d=document.getElementById('sdrop');if(!q.trim()){d.innerHTML='';d.classList.remove('open');return}const m=SA.filter(x=>x.l.toLowerCase().includes(q.toLowerCase())||x.s.toLowerCase().includes(q.toLowerCase())).slice(0,7);d.innerHTML=m.map(x=>`<div class="si-drop" onclick="handleSR('${x.t}','${x.id}')"><div class="av av32" style="background:${x.bgc};color:${x.tc}">${x.t==='nonprofit'?'<i class="ti ti-building-community" style="font-size:13px"></i>':x.i}</div><div style="flex:1"><div class="f13">${x.l}</div><div class="f11 ts">${x.s}</div></div><span class="bdg bgg">${x.t}</span></div>`).join('')||`<div class="f13 ts" style="padding:8px 10px">No results</div>`;d.classList.add('open')}
+function openSD(){if(document.getElementById('gs').value.trim())document.getElementById('sdrop').classList.add('open')}
+function closeSD(){document.getElementById('sdrop').classList.remove('open')}
+function handleSR(t,id){closeSD();document.getElementById('gs').value='';if(t==='worker')openW(id);else{go('nps');setTimeout(()=>showNP(id),80)}}
+function closeMod(e){if(!e||e.target===document.getElementById('mBg'))document.getElementById('mBg').classList.remove('open')}
+
+let tick=0;
+setInterval(()=>{tick++;const w=Math.max(40,Math.min(65,48+Math.round(Math.sin(tick*.3)*8)));const r=Math.max(20,Math.min(45,31+Math.round(Math.sin(tick*.4+1)*7)));const wt=(2.4+Math.sin(tick*.25)*.6).toFixed(1);const wEl=document.getElementById('mW'),rEl=document.getElementById('mR'),tEl=document.getElementById('mT');if(wEl)wEl.textContent=w;if(rEl)rEl.textContent=r;if(tEl)tEl.textContent=wt+'h'},3000);
+
+renderW();
+</script>
+</body>
+</html>
